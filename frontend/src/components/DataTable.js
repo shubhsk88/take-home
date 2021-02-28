@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, Button, Box } from "@chakra-ui/react";
 import { SortingContext } from "../context/sortingContext";
 
@@ -9,10 +9,21 @@ const DataTable = ({
   sortable = [],
   defaultSortDirection,
 }) => {
-  const [, setSorting] = useContext(SortingContext);
+  const [sorting, setSorting] = useContext(SortingContext);
   const [modifier, setModifier] = useState(0);
+  const [headerLogoOrder, setHeaderLogoOrder] = useState(
+    heading.map((head) => {
+      return { [head]: null };
+    })
+  );
+
+  console.log(headerLogoOrder);
+  console.log(modifier, "Triggered", sorting);
   const onClick = (value) => {
-    
+    const valueInLowerCase = value.toLowerCase();
+    if (sorting?.sortBy !== valueInLowerCase) {
+      setModifier(0);
+    }
   };
 
   return (
@@ -31,9 +42,8 @@ const DataTable = ({
         </Thead>
         <Tbody overflowY="scroll">
           {rows.map((row) => {
-            console.log(row);
             const rowArray = Object.values(row).slice(2);
-            console.log(rowArray);
+
             return (
               <Tr key={row.id}>
                 {rowArray.map((data) => (

@@ -1,11 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
 import { Box, Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import DataTable from "./components/DataTable";
-import Pagination from "./components/Pagination";
+
 import { PER_PAGE } from "./constants";
-import { SortingProvider } from "./context/sortingContext";
+import { SortingContext } from "./context/sortingContext";
 
 export const TOTAL_PAGE_QUERY = gql`
   query {
@@ -29,6 +29,8 @@ const GET_USERS = gql`
 `;
 
 function App() {
+  const [sorting] = useContext(SortingContext);
+  console.log(sorting);
   const [page, setPage] = useState(1);
   const [variables, setVariables] = useState({
     skip: PER_PAGE * page - PER_PAGE,
@@ -55,7 +57,7 @@ function App() {
   };
 
   return (
-    <SortingProvider>
+    <>
       <Box mx="auto" display="flex" p={16}>
         <Button disabled={page <= 1} onClick={onPrev}>
           Prev
@@ -73,7 +75,7 @@ function App() {
           heading={["Name", "Sales", "Company", "Quantity", "Amount"]}
         />
       ) : null}
-    </SortingProvider>
+    </>
   );
 }
 

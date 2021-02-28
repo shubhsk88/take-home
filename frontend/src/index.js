@@ -7,13 +7,16 @@ import client from "./apollo";
 import { ApolloProvider } from "@apollo/client";
 import reportWebVitals from "./reportWebVitals";
 import theme from "./theme";
+import { SortingProvider } from "./context/sortingContext";
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
-  </ApolloProvider>,
+  <SortingProvider>
+    <ApolloProvider client={client}>
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
+    </ApolloProvider>
+  </SortingProvider>,
   document.getElementById("root")
 );
 

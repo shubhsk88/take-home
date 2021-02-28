@@ -5,6 +5,7 @@ import { useState } from "react";
 import DataTable from "./components/DataTable";
 import Pagination from "./components/Pagination";
 import { PER_PAGE } from "./constants";
+import { SortingProvider } from "./context/sortingContext";
 
 export const TOTAL_PAGE_QUERY = gql`
   query {
@@ -29,11 +30,12 @@ const GET_USERS = gql`
 
 function App() {
   const [page, setPage] = useState(1);
+  const [variables, setVariables] = useState({
+    skip: PER_PAGE * page - PER_PAGE,
+    first: PER_PAGE,
+  });
   const { data, loading, error } = useQuery(GET_USERS, {
-    variables: {
-      skip: PER_PAGE * page - PER_PAGE,
-      first: PER_PAGE,
-    },
+    variables,
   });
 
   const {
@@ -51,9 +53,10 @@ function App() {
   const onNext = () => {
     setPage(page + 1);
   };
+
   return (
-    <>
-      <Box mx="auto" display="flex">
+    <SortingProvider>
+      <Box mx="auto" display="flex" p={16}>
         <Button disabled={page <= 1} onClick={onPrev}>
           Prev
         </Button>
@@ -70,7 +73,7 @@ function App() {
           heading={["Name", "Sales", "Company", "Quantity", "Amount"]}
         />
       ) : null}
-    </>
+    </SortingProvider>
   );
 }
 

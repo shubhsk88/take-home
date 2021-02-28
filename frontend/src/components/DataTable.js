@@ -1,29 +1,33 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, Button, Box } from "@chakra-ui/react";
+import { SortingContext } from "../context/sortingContext";
 
 const DataTable = ({
   onSort,
   rows,
   heading,
-  sortable,
+  sortable = [],
   defaultSortDirection,
 }) => {
+  const [, setSorting] = useContext(SortingContext);
+  const [modifier, setModifier] = useState(0);
+  const onClick = (value) => {
+    
+  };
+
   return (
     <Box maxW="1200px" margin="4rem auto">
       <Table variant="simple">
         <Thead>
-          {heading.map((value) => (
-            <Th key={value}>{value}</Th>
-          ))}
-          {/* {heading.map((value, index) => {
-          return Boolean(sortable[index]) ? (
-            <Th key={value}>{value}</Th>
-          ) : (
-            <Th key={value}>
-              <Button>{value}</Button>
-            </Th>
-          );
-        })} */}
+          {heading.map((value, index) => {
+            return sortable[index] ? (
+              <Th key={value}>{value}</Th>
+            ) : (
+              <Th key={value}>
+                <Button onClick={() => onClick(value)}>{value}</Button>
+              </Th>
+            );
+          })}
         </Thead>
         <Tbody overflowY="scroll">
           {rows.map((row) => {

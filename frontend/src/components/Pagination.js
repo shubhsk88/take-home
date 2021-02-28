@@ -3,7 +3,7 @@ import { Box, Button } from "@chakra-ui/react";
 import React from "react";
 import { PER_PAGE } from "../constants";
 
-const TOTAL_PAGE_QUERY = gql`
+export const TOTAL_PAGE_QUERY = gql`
   query {
     _allUsersMeta {
       count

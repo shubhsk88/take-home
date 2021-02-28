@@ -1,6 +1,15 @@
 import React, { useContext, useMemo, useState } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, Button, Box } from "@chakra-ui/react";
 import { SortingContext } from "../context/sortingContext";
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+
+const iconModifier = (headerValues, key) => {
+  if (headerValues[key] === "ASC") {
+    return <AiFillCaretDown />;
+  } else if (headerValues[key] === "DESC") {
+    return <AiFillCaretUp />;
+  }
+};
 
 const DataTable = ({
   onSort,
@@ -10,22 +19,43 @@ const DataTable = ({
   defaultSortDirection,
 }) => {
   const [sorting, setSorting] = useContext(SortingContext);
-  const [modifier, setModifier] = useState(0);
-  const [headerLogoOrder, setHeaderLogoOrder] = useState(
-    heading.map((head) => {
-      return { [head]: null };
-    })
-  );
 
-  console.log(headerLogoOrder);
-  console.log(modifier, "Triggered", sorting);
+  const [headerIconOrder, setHeaderIconOrder] = useState(() =>
+    heading.reduce((acc, item) => {
+      return Object.assign(acc, { [item]: null });
+    }, {})
+  );
+  console.log(headerIconOrder);
+
   const onClick = (value) => {
-    const valueInLowerCase = value.toLowerCase();
-    if (sorting?.sortBy !== valueInLowerCase) {
-      setModifier(0);
+    if (sorting.sortBy) {
+      if (sorting.sortBy !== value) {
+        setHeaderIconOrder((prev) => ({
+          ...prev,
+
+          [sorting.sortBy]: null,
+        }));
+        setSorting((prev) => ({
+          ...prev,
+          sortBy: value,
+          orderBy: "ASC",
+        }));
+      } else {
+        if (sorting.orderBy === "ASC") {
+          setHeaderIconOrder((prev) => ({ ...prev, [value]: "DESC" }));
+          setSorting({ sortBy: value, orderBy: "DESC" });
+        } else {
+          setHeaderIconOrder((prev) => ({ ...prev, [value]: "ASC" }));
+          setSorting({ sortBy: value, orderBy: "ASC" });
+        }
+      }
+    } else {
+      setHeaderIconOrder((prev) => ({ ...prev, [value]: "ASC" }));
+      setSorting({ sortBy: value, orderBy: "ASC" });
     }
   };
 
+  console.log(headerIconOrder);
   return (
     <Box maxW="1200px" margin="4rem auto">
       <Table variant="simple">
@@ -35,7 +65,12 @@ const DataTable = ({
               <Th key={value}>{value}</Th>
             ) : (
               <Th key={value}>
-                <Button onClick={() => onClick(value)}>{value}</Button>
+                <Button
+                  onClick={() => onClick(value)}
+                  rightIcon={iconModifier(headerIconOrder, value)}
+                >
+                  {value}
+                </Button>
               </Th>
             );
           })}

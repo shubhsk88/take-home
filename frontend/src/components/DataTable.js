@@ -57,7 +57,7 @@ const DataTable = ({
     }
   };
 
-  console.log(headerIconOrder);
+  
   return (
     <Box maxW="1200px" margin="4rem auto">
       <Table variant="simple">

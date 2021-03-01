@@ -3,6 +3,7 @@ import { Box, Button } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 
 import DataTable from "./components/DataTable";
+import Users from "./components/Users";
 
 import { PER_PAGE } from "./constants";
 import { SortingContext } from "./context/sortingContext";
@@ -15,46 +16,16 @@ export const TOTAL_PAGE_QUERY = gql`
   }
 `;
 
-const GET_USERS = gql`
-  query getUsers($skip: Int = 0, $first: Int) {
-    allUsers(first: $first, skip: $skip) {
-      id
-      name
-      sales
-      company
-      quantity
-      amount
-    }
-  }
-`;
-
 function App() {
-  const [sorting] = useContext(SortingContext);
-
   const [page, setPage] = useState(1);
-  const [variables, setVariables] = useState({
-    skip: PER_PAGE * page - PER_PAGE,
-    first: PER_PAGE,
-  });
-
-  useEffect(() => {
-    if (sorting.sortBy) {
-    }
-  });
-  const { data, loading, error } = useQuery(GET_USERS, {
-    variables: {
-      skip: PER_PAGE * page - PER_PAGE,
-      first: PER_PAGE,
-    },
-  });
 
   const {
     data: totalData,
     loading: totalLoading,
     error: totalError,
   } = useQuery(TOTAL_PAGE_QUERY);
-  if (loading || totalLoading) return <div>Loading...</div>;
-  if (error || totalError) return <div>{JSON.stringify(error)}</div>;
+  if (totalLoading) return <div>Loading...</div>;
+  if (totalError) return <div>{JSON.stringify(totalError)}</div>;
   const { count } = totalData?._allUsersMeta;
   const totalPage = Math.ceil(count / PER_PAGE);
   const onPrev = () => {
@@ -77,12 +48,7 @@ function App() {
           Next
         </Button>
       </Box>
-      {data?.allUsers ? (
-        <DataTable
-          rows={data.allUsers}
-          heading={["Name", "Sales", "Company", "Quantity", "Amount"]}
-        />
-      ) : null}
+      <Users page={page} />
     </>
   );
 }

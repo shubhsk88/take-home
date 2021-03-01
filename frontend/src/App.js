@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { Box, Button } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import DataTable from "./components/DataTable";
 
@@ -30,14 +30,22 @@ const GET_USERS = gql`
 
 function App() {
   const [sorting] = useContext(SortingContext);
-  console.log(sorting);
+
   const [page, setPage] = useState(1);
   const [variables, setVariables] = useState({
     skip: PER_PAGE * page - PER_PAGE,
     first: PER_PAGE,
   });
+
+  useEffect(() => {
+    if (sorting.sortBy) {
+    }
+  });
   const { data, loading, error } = useQuery(GET_USERS, {
-    variables,
+    variables: {
+      skip: PER_PAGE * page - PER_PAGE,
+      first: PER_PAGE,
+    },
   });
 
   const {

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, Button, Box } from "@chakra-ui/react";
 import { SortingContext } from "../context/sortingContext";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
@@ -34,7 +34,9 @@ const DataTable = ({
           ...prev,
 
           [sorting.sortBy]: null,
+          [value]: "ASC",
         }));
+
         setSorting((prev) => ({
           ...prev,
           sortBy: value,

@@ -2,15 +2,17 @@ const { Keystone } = require("@keystonejs/keystone");
 const { GraphQLApp } = require("@keystonejs/app-graphql");
 const { AdminUIApp } = require("@keystonejs/app-admin-ui");
 const { User } = require("./schema/User");
-const { KnexAdapter: Adapter, KnexAdapter } = require("@keystonejs/adapter-knex");
+const {
+  KnexAdapter: Adapter,
+  KnexAdapter,
+} = require("@keystonejs/adapter-knex");
 const insertSeedData = require("./seed");
-
-
+require("dotenv/config");
 
 const PROJECT_NAME = "Backend";
 
 const adapterConfig = {
-  knexOptions: { connection: "postgres://localhost/upflow" },
+  knexOptions: { connection: process.env.DB_URL },
 };
 
 /**

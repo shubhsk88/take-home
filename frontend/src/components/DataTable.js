@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, Button, Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
+
+import { Tr, Td, Table, Th } from "./Table";
 import { SortingContext } from "../context/sortingContext";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 
@@ -57,17 +59,17 @@ const DataTable = ({
     }
   };
 
-  
   return (
     <Box maxW="1200px" margin="4rem auto">
-      <Table variant="simple">
-        <Thead>
+      <Table>
+        <thead>
           {heading.map((value, index) => {
             return sortable[index] ? (
               <Th key={value}>{value}</Th>
             ) : (
               <Th key={value}>
                 <Button
+                  variant="ghost"
                   onClick={() => onClick(value)}
                   rightIcon={iconModifier(headerIconOrder, value)}
                 >
@@ -76,8 +78,8 @@ const DataTable = ({
               </Th>
             );
           })}
-        </Thead>
-        <Tbody overflowY="scroll">
+        </thead>
+        <tbody>
           {rows.map((row) => {
             const rowArray = Object.values(row).slice(2);
 
@@ -89,7 +91,7 @@ const DataTable = ({
               </Tr>
             );
           })}
-        </Tbody>
+        </tbody>
       </Table>
     </Box>
   );

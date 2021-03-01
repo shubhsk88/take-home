@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { PER_PAGE } from "../constants";
 import { SortingContext } from "../context/sortingContext";
 import DataTable from "./DataTable";
+import EmptyTableSkelton from "./EmptyTable";
 
 const GET_USERS = gql`
   query getUsers($skip: Int = 0, $first: Int, $sortBy: [SortUsersBy!]) {
@@ -20,7 +21,7 @@ const GET_USERS = gql`
 
 const Users = ({ page = 1 }) => {
   const [sorting] = useContext(SortingContext);
- 
+const headers = ["Name", "Sales", "Company", "Quantity", "Amount"];
   const { data, loading, error, fetchMore } = useQuery(GET_USERS, {
     variables: {
       skip: PER_PAGE * page - PER_PAGE,
@@ -40,14 +41,14 @@ const Users = ({ page = 1 }) => {
     }
   }, [fetchMore, page, sorting.orderBy, sorting.sortBy]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <EmptyTableSkelton headers={headers} />;
   if (error) return <div>{JSON.stringify(error)}</div>;
   return (
     <div>
       {data?.allUsers ? (
         <DataTable
           rows={data.allUsers}
-          heading={["Name", "Sales", "Company", "Quantity", "Amount"]}
+          heading={headers}
         />
       ) : null}
     </div>

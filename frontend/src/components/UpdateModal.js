@@ -12,7 +12,7 @@ import {
   FormLabel,
   Input,
   VStack,
-  useModal,
+  
   useToast,
 } from "@chakra-ui/react";
 import { TOTAL_PAGE_QUERY } from "../App";

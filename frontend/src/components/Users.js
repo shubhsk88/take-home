@@ -1,12 +1,12 @@
 import { gql, useQuery } from "@apollo/client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 import { PER_PAGE } from "../constants";
 import { SortingContext } from "../context/sortingContext";
 import DataTable from "./DataTable";
 import EmptyTableSkelton from "./EmptyTable";
 
-const GET_USERS = gql`
+export const GET_USERS = gql`
   query getUsers($skip: Int = 0, $first: Int, $sortBy: [SortUsersBy!]) {
     allUsers(first: $first, skip: $skip, sortBy: $sortBy) {
       id
@@ -21,7 +21,7 @@ const GET_USERS = gql`
 
 const Users = ({ page = 1 }) => {
   const [sorting] = useContext(SortingContext);
-const headers = ["Name", "Sales", "Company", "Quantity", "Amount"];
+  const headers = ["Name", "Sales", "Company", "Quantity", "Amount"];
   const { data, loading, error, fetchMore } = useQuery(GET_USERS, {
     variables: {
       skip: PER_PAGE * page - PER_PAGE,
@@ -44,14 +44,11 @@ const headers = ["Name", "Sales", "Company", "Quantity", "Amount"];
   if (loading) return <EmptyTableSkelton headers={headers} />;
   if (error) return <div>{JSON.stringify(error)}</div>;
   return (
-    <div>
+    <>
       {data?.allUsers ? (
-        <DataTable
-          rows={data.allUsers}
-          heading={headers}
-        />
+        <DataTable rows={data.allUsers} heading={headers} />
       ) : null}
-    </div>
+    </>
   );
 };
 

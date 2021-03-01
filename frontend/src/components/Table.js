@@ -4,10 +4,11 @@ export const Th = (props) => (
   <Text
     as="th"
     textTransform="uppercase"
-    fontSize="sm"
+    fontSize="xl"
     color="gray.600"
     fontWeight="medium"
-    px={4}
+    p={4}
+    px={8}
     {...props}
   />
 );
@@ -28,7 +29,8 @@ export const Td = (props) => (
     as="td"
     color="gray.900"
     borderBottom="1px solid gray.200"
-    p={4}
+    py={4}
+    px={12}
     {...props}
   />
 );
@@ -39,7 +41,7 @@ export const Table = (props) => (
     textAlign="left"
     rounded="lg"
     backgroundColor="white"
-    shadow="lg"
+    shadow="xl"
     borderRadius={8}
     {...props}
   />

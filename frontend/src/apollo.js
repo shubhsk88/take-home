@@ -1,4 +1,4 @@
-import { createHttpLink, ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 import paginationField from "./utils/paginationField";
 
 const client = new ApolloClient({

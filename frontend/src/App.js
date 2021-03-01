@@ -1,12 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
 import { Box, Button } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 
-import DataTable from "./components/DataTable";
 import Users from "./components/Users";
 
 import { PER_PAGE } from "./constants";
-import { SortingContext } from "./context/sortingContext";
 
 export const TOTAL_PAGE_QUERY = gql`
   query {
@@ -36,20 +35,51 @@ function App() {
   };
 
   return (
-    <>
-      <Box mx="auto" display="flex" p={16}>
-        <Button disabled={page <= 1} onClick={onPrev}>
+    <Box maxW="1200px" mx="auto" my={12}>
+      <Box
+        my={8}
+        p={4}
+        display="flex"
+        w="max-content"
+        fontSize="2xl"
+        borderRadius={8}
+        border="1px solid"
+        borderColor="gray.200"
+        alignItems="center"
+      >
+        <Button
+          variant="link"
+          fontSize="inherit"
+          p={4}
+          borderColor="gray.50"
+          size="lg"
+          leftIcon={<BsArrowLeft />}
+          disabled={page <= 1}
+          onClick={onPrev}
+        >
           Prev
         </Button>
-        <Box px={4} py={2}>
+        <Box px={4} h="100%" py={2}>
           Page {page} of {totalPage}
         </Box>
-        <Button disabled={page >= totalPage} onClick={onNext}>
+        <Button
+          variant="link"
+          fontSize="inherit"
+          p={4}
+          borderColor="gray.50"
+          size="lg"
+          rightIcon={<BsArrowRight />}
+          disabled={page >= totalPage}
+          onClick={onNext}
+        >
           Next
         </Button>
       </Box>
-      <Users page={page} />
-    </>
+
+      <Box display="flex" justifyContent="center">
+        <Users page={page} />
+      </Box>
+    </Box>
   );
 }
 

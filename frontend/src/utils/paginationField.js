@@ -17,15 +17,12 @@ export default function paginationField() {
         return false;
       }
       if (items.length) {
-        console.log(
-          `There are ${items.length} items in the cahce and send them to apollo`
-        );
         return items;
       }
       return false;
     },
     merge(existing, incoming, { args }) {
-      const { skip, first } = args;
+      const { skip } = args;
 
       const merged = existing ? existing.slice(0) : [];
       for (let i = skip; i < skip + incoming.length; ++i) {

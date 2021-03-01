@@ -82,12 +82,14 @@ const DataTable = ({
       <Table h="70vh">
         <thead>
           {heading.map((value, index) => {
-            return sortable[index] ? (
+            return !sortable[index] ? (
               <Th key={value}>{value}</Th>
             ) : (
               <Th key={value}>
                 <Button
                   variant="ghost"
+                  fontSize="inherit"
+                  textTransform="uppercase"
                   onClick={() => onClick(value)}
                   rightIcon={iconModifier(headerIconOrder, value)}
                 >
@@ -96,7 +98,6 @@ const DataTable = ({
               </Th>
             );
           })}
-          
         </thead>
         <Box as="tbody" overflowY="scroll">
           {rows.map((row) => {

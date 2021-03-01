@@ -46,7 +46,11 @@ const Users = ({ page = 1 }) => {
   return (
     <>
       {data?.allUsers ? (
-        <DataTable rows={data.allUsers} heading={headers} />
+        <DataTable
+          rows={data.allUsers}
+          heading={headers}
+          sortable={[false, true, false, true, true]}
+        />
       ) : null}
     </>
   );

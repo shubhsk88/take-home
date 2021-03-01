@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Box, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import DisplayError from "./components/DisplayError";
 
 import Users from "./components/Users";
 
@@ -24,7 +25,7 @@ function App() {
     error: totalError,
   } = useQuery(TOTAL_PAGE_QUERY);
   if (totalLoading) return <div>Loading...</div>;
-  if (totalError) return <div>{JSON.stringify(totalError)}</div>;
+  if (totalError) return <DisplayError error={totalError} />;
   const { count } = totalData?._allUsersMeta;
   const totalPage = Math.ceil(count / PER_PAGE);
   const onPrev = () => {
@@ -35,13 +36,13 @@ function App() {
   };
 
   return (
-    <Box maxW="1200px" mx="auto" my={12}>
+    <Box maxW="1200px" mx="auto" my={6}>
       <Box
         my={8}
-        p={4}
+        p={2}
         display="flex"
         w="max-content"
-        fontSize="2xl"
+        fontSize="lg"
         borderRadius={8}
         border="1px solid"
         borderColor="gray.200"

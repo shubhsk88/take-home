@@ -4,7 +4,7 @@ export const Th = (props) => (
   <Text
     as="th"
     textTransform="uppercase"
-    fontSize="xl"
+    fontSize="lg"
     color="gray.600"
     fontWeight="medium"
     p={4}
@@ -41,7 +41,7 @@ export const Table = (props) => (
   <Box
     as="table"
     textAlign="left"
-    rounded="xl"
+    rounded="lg"
     backgroundColor="white"
     shadow="xl"
     overflow="hidden"

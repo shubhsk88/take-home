@@ -7,6 +7,7 @@ import { gql, useMutation } from "@apollo/client";
 import { Tr, Td, Table, Th } from "./Table";
 import { SortingContext } from "../context/sortingContext";
 import { GET_USERS } from "./Users";
+import UpdateModal from "./UpdateModal";
 
 const DELETE_USER_MUTATION = gql`
   mutation deleteUser($id: ID!) {
@@ -107,9 +108,10 @@ const DataTable = ({ rows, heading, sortable = [] }) => {
                 <Td key={data}>{data}</Td>
               ))}
               <Td>
+                <UpdateModal row={row} />
                 <Button
                   variant="link"
-                  size="lg"
+                  size="md"
                   onClick={() => onDelete(row.id)}
                   color="red.400"
                   fontWeight="bold"

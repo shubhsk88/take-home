@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useContext, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import { PER_PAGE } from "../constants";
 import { SortingContext } from "../context/sortingContext";
@@ -49,11 +50,15 @@ const Users = ({ page = 1 }) => {
         <DataTable
           rows={data.allUsers}
           heading={headers}
-          sortable={[false, true, false, true, true]}
+          sortable={[true, true, false, true, true]}
         />
       ) : null}
     </>
   );
+};
+
+Users.propTypes = {
+  page: PropTypes.number,
 };
 
 export default Users;

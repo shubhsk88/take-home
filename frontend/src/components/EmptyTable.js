@@ -1,5 +1,6 @@
 import { Table, Td, Tr, Th } from "./Table";
 import { Skeleton } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
 const SkeltonRow = ({ width }) => {
   return (
@@ -27,9 +28,11 @@ const EmptyTableSkelton = ({ headers = [] }) => {
   return (
     <Table>
       <thead>
-        {headers.map((header) => (
-          <Th key={header}>{header}</Th>
-        ))}
+        <Tr>
+          {headers.map((header) => (
+            <Th key={header}>{header}</Th>
+          ))}
+        </Tr>
       </thead>
       <tbody>
         <SkeltonRow width="125px" />
@@ -42,4 +45,7 @@ const EmptyTableSkelton = ({ headers = [] }) => {
   );
 };
 
+EmptyTableSkelton.propTypes = {
+  headers: PropTypes.arrayOf(PropTypes.string),
+};
 export default EmptyTableSkelton;

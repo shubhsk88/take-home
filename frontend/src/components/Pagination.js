@@ -1,7 +1,9 @@
 import { gql, useQuery } from "@apollo/client";
 import { Box, Button } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 import React from "react";
 import { PER_PAGE } from "../constants";
+import DisplayError from "./DisplayError";
 
 export const TOTAL_PAGE_QUERY = gql`
   query {
@@ -14,7 +16,7 @@ export const TOTAL_PAGE_QUERY = gql`
 const Pagination = ({ page = 1 }) => {
   const { data, loading, error } = useQuery(TOTAL_PAGE_QUERY);
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>{JSON.stringify(error)}</div>;
+  if (error) return <DisplayError error={error} />;
   const { count } = data?._allUsersMeta;
   const totalPage = Math.ceil(count / PER_PAGE);
 
@@ -27,4 +29,7 @@ const Pagination = ({ page = 1 }) => {
   );
 };
 
+Pagination.propType = {
+  page: PropTypes.number,
+};
 export default Pagination;

@@ -18,7 +18,8 @@ export const Tr = (props) => (
     as="tr"
     backgroundColor="gray.50"
     borderTopRadius={8}
-    borderBottom="1px solid gray.200"
+    borderBottom="1px solid"
+    borderBottomColor="gray.100"
     height="40px"
     {...props}
   />
@@ -28,7 +29,8 @@ export const Td = (props) => (
   <Box
     as="td"
     color="gray.900"
-    borderBottom="1px solid gray.200"
+    borderBottom="1px solid"
+    borderBottomColor="gray.100"
     py={4}
     px={12}
     {...props}
@@ -39,10 +41,12 @@ export const Table = (props) => (
   <Box
     as="table"
     textAlign="left"
-    rounded="lg"
+    rounded="xl"
     backgroundColor="white"
     shadow="xl"
-    borderRadius={8}
+    overflow="hidden"
+    border="1px solid"
+    borderColor="gray.800"
     {...props}
   />
 );

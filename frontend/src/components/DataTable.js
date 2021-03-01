@@ -1,11 +1,13 @@
 import React, { useContext, useState } from "react";
-import { Box, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import PropTypes from "prop-types";
 import { gql, useMutation } from "@apollo/client";
 
 import { Tr, Td, Table, Th } from "./Table";
 import { SortingContext } from "../context/sortingContext";
 import { GET_USERS } from "./Users";
+
 const DELETE_USER_MUTATION = gql`
   mutation deleteUser($id: ID!) {
     deleteUser(id: $id) {
@@ -22,16 +24,10 @@ const iconModifier = (headerValues, key) => {
   }
 };
 
-const DataTable = ({
-  onSort,
-  rows,
-  heading,
-  sortable = [],
-  defaultSortDirection,
-}) => {
+const DataTable = ({ rows, heading, sortable = [] }) => {
   const [sorting, setSorting] = useContext(SortingContext);
   const [deleteUser, { loading }] = useMutation(DELETE_USER_MUTATION, {
-    refetchQueries: () => [{ query: GET_USERS }],
+    refetchQueries: [{ query: GET_USERS }],
   });
 
   const headingObject = heading.reduce((acc, item) => {
@@ -78,9 +74,9 @@ const DataTable = ({
   };
 
   return (
-    <Box w="100%">
-      <Table h="70vh">
-        <thead>
+    <Table border="1px solid" borderColor="gray.50">
+      <thead>
+        <Tr>
           {heading.map((value, index) => {
             return !sortable[index] ? (
               <Th key={value}>{value}</Th>
@@ -98,34 +94,41 @@ const DataTable = ({
               </Th>
             );
           })}
-        </thead>
-        <Box as="tbody" overflowY="scroll">
-          {rows.map((row) => {
-            const rowArray = Object.values(row).slice(2);
+          <Th />
+        </Tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => {
+          const rowArray = Object.values(row).slice(2);
 
-            return (
-              <Tr key={row.id}>
-                {rowArray.map((data) => (
-                  <Td key={data}>{data}</Td>
-                ))}
-                <Td>
-                  <Button
-                    variant="link"
-                    size="lg"
-                    onClick={() => onDelete(row.id)}
-                    color="red.400"
-                    fontWeight="bold"
-                  >
-                    Delete
-                  </Button>
-                </Td>
-              </Tr>
-            );
-          })}
-        </Box>
-      </Table>
-    </Box>
+          return (
+            <Tr key={row.id}>
+              {rowArray.map((data) => (
+                <Td key={data}>{data}</Td>
+              ))}
+              <Td>
+                <Button
+                  variant="link"
+                  size="lg"
+                  onClick={() => onDelete(row.id)}
+                  color="red.400"
+                  fontWeight="bold"
+                >
+                  Delete
+                </Button>
+              </Td>
+            </Tr>
+          );
+        })}
+      </tbody>
+    </Table>
   );
+};
+
+DataTable.propType = {
+  rows: PropTypes.arrayOf(PropTypes.object),
+  heading: PropTypes.arrayOf(PropTypes.string).isRequired,
+  sortable: PropTypes.arrayOf(PropTypes.bool),
 };
 
 export default DataTable;

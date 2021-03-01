@@ -1,14 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+
+import { ChakraProvider } from "@chakra-ui/react";
+import App from "./App";
+import client from "./apollo";
+import { ApolloProvider } from "@apollo/client";
+import reportWebVitals from "./reportWebVitals";
+import theme from "./theme";
+import { SortingProvider } from "./context/sortingContext";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <SortingProvider>
+    <ApolloProvider client={client}>
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
+    </ApolloProvider>
+  </SortingProvider>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
